@@ -28,47 +28,71 @@
         }"
     >
 
-        <!-- Alpine Loop-->
         <template x-for="item in listings" :key="item.id">
 
-            <div class="bg-white shadow rounded overflow-hidden">
+    <div class="bg-white shadow rounded overflow-hidden">
 
-                <img 
-                    :src="item.listing_photo?.[0]?.failo_url || 'https://via.placeholder.com/300'"
-                    class="w-full h-48 object-cover"
+        <!-- IMAGE -->
+        <img 
+            :src="item.listing_photo?.[0]?.failo_url || 'https://via.placeholder.com/300'"
+            class="w-full h-48 object-cover"
+        />
+
+        <div class="p-4">
+
+            <!-- TITLE -->
+            <h2 class="text-lg font-semibold mb-2" x-text="item.pavadinimas"></h2>
+
+            <!-- DESCRIPTION -->
+            <p class="text-gray-500 text-sm line-clamp-2" x-text="item.aprasymas"></p>
+
+            <!-- PRICE -->
+            <div class="flex justify-between items-center mt-3">
+                <span class="text-green-600 font-bold text-lg" x-text="item.kaina + ' €'"></span>
+            </div>
+
+            <!-- QUANTITY + RENEWABLE STATUS -->
+            <div class="mt-2 text-sm">
+                <template x-if="item.tipas === 'preke'">
+                    <div>
+                        <strong>Stock:</strong>
+                        <span 
+                            :class="item.kiekis == 0 ? 'text-red-600 font-bold' : ''"
+                            x-text="item.kiekis"
+                        ></span>
+
+                        <template x-if="item.is_renewable == 1">
+                            <span class="text-green-600 ml-1">(renewable)</span>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex justify-between items-center mt-4">
+
+                <a 
+                    :href="'/listing/' + item.id + '/edit'" 
+                    class="text-blue-600 font-semibold hover:underline"
                 >
+                    Edit
+                </a>
 
-                <div class="p-4">
-
-                    <h2 class="text-lg font-semibold mb-2" x-text="item.pavadinimas"></h2>
-
-                    <p class="text-gray-500 text-sm line-clamp-2" x-text="item.aprasymas"></p>
-
-                    <div class="flex justify-between items-center mt-3">
-                        <span class="text-green-600 font-bold text-lg" x-text="item.kaina + ' €'"></span>
-                    </div>
-
-                    <div class="flex justify-between items-center mt-4">
-
-                        <a 
-                            :href="'/listing/' + item.id + '/edit'" 
-                            class="text-blue-600 font-semibold hover:underline">
-                            Edit
-                        </a>
-
-                        <button 
-                            @click="deleteListing(item.id)"
-                            class="text-red-600 font-semibold hover:underline">
-                            Delete
-                        </button>
-
-                    </div>
-
-                </div>
+                <button 
+                    @click="deleteListing(item.id)"
+                    class="text-red-600 font-semibold hover:underline"
+                >
+                    Delete
+                </button>
 
             </div>
 
-        </template>
+        </div>
+
+    </div>
+
+</template>
+
 
     </div>
 

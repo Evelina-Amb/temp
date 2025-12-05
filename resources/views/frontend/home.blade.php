@@ -9,7 +9,7 @@
 <div class="relative">
 
     <img 
-        src="{{ $item->ListingPhoto?->first()?->failo_url ?? 'https://via.placeholder.com/300' }}"
+        src="{{ $item->ListingPhoto->first()?->failo_url ?? 'https://via.placeholder.com/300' }}"
         class="w-full h-48 object-cover"
     >
 

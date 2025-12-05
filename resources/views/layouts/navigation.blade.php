@@ -21,14 +21,26 @@
         Services
     </a>
     <a href="{{ route('favorites.page') }}" class="hover:text-blue-600">My Favorites</a>
-
-  <a href="{{ route('my.listings') }}" class="hover:text-blue-600">
-    My Listings
+@auth
+    <a href="{{ route('my.listings') }}" class="hover:text-blue-600">
+        My Listings
     </a>
+@else
+    <a href="{{ route('login') }}" class="hover:text-blue-600">
+        My Listings
+    </a>
+@endauth
 
-    <a href="#" class="hover:text-blue-600">Post a Listing</a>
-    
-    <a href="#" class="hover:text-blue-600">My Stats</a>
+@auth
+    <a href="{{ route('listing.create') }}" class="hover:text-blue-600">
+        Post a Listing
+    </a>
+@else
+    <a href="{{ route('login') }}" class="hover:text-blue-600">
+        Post a Listing
+    </a>
+@endauth
+
     </div>
 
             </div>
@@ -36,19 +48,27 @@
             <!-- RIGHT SIDE -->
             <div class="hidden md:flex items-center space-x-6">
                 @auth
+                    <!-- CART LINK -->
+<a href="{{ route('cart.index') }}" class="relative text-gray-700 hover:text-blue-600">
+    Cart 
+    @if(session('cart_count', 0) > 0)
+        <span class="absolute -top-2 -right-3 bg-red-600 text-white text-xs rounded-full px-1">
+            {{ session('cart_count') }}
+        </span>
+    @endif
+</a>
                     <!-- USER DROPDOWN -->
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700">
-                                <span>{{ Auth::user()->name }}</span>
-                                <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.4a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
-                                          clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </x-slot>
-
+                   <x-dropdown align="right" width="48">
+    <x-slot name="trigger">
+        <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700">
+            <span>{{ Auth::user()->vardas }}</span>
+            <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.4a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd" />
+            </svg>
+        </button>
+    </x-slot>
                         <x-slot name="content">
                             <x-dropdown-link :href="route('profile.edit')">
                                 Profile
@@ -70,23 +90,6 @@
                 @endauth
 
             </div>
-
-            <!-- MOBILE MENU BUTTON -->
-            <div class="md:hidden">
-                <button @click="open = ! open" class="p-2 text-gray-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor">
-                        <!-- BURGER -->
-                        <path :class="{ 'hidden': open, 'block': !open }" class="block"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"/>
-                        <!-- X -->
-                        <path :class="{ 'hidden': !open, 'block': open }" class="hidden"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-
         </div>
     </div>
 
@@ -131,40 +134,6 @@
                     <option value="price_desc" @selected(request('sort')=='price_desc')>Price: High → Low</option>
                 </select>
             </form>
-
         </div>
     </div>
-
-    <!-- MOBILE MENU-->
-    <div :class="{ 'block': open, 'hidden': !open }" class="md:hidden bg-white border-t">
-        <div class="px-4 py-4 space-y-4">
-
-            <!-- SEARCH -->
-            <form action="{{ route('home') }}" method="GET" class="flex">
-                <input
-                    type="text"
-                    name="q"
-                    class="flex-grow border rounded-l px-4 py-2"
-                    placeholder="Search..."
-                >
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-r">GO</button>
-            </form>
-
-            @auth
-                <div class="text-gray-900 font-semibold">{{ Auth::user()->name }}</div>
-
-                <a href="{{ route('profile.edit') }}" class="block text-gray-700">Profile</a>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="text-red-600">Log out</button>
-                </form>
-
-            @else
-                <a href="{{ route('login') }}" class="block text-gray-700">Log in</a>
-                <a href="{{ route('register') }}" class="block text-blue-600 font-semibold">Register</a>
-            @endauth
-        </div>
-    </div>
-
 </nav>

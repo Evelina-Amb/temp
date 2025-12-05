@@ -30,7 +30,17 @@
                           autocomplete="given-name" />
             <x-input-error class="mt-2" :messages="$errors->get('vardas')" />
         </div>
-
+        {{-- LAST NAME --}}
+        <div>
+            <x-input-label for="pavarde" value="Last Name" />
+            <x-text-input id="pavarde"
+                          name="pavarde"
+                          type="text"
+                          class="mt-1 block w-full"
+                          :value="old('pavarde', $user->pavarde)"
+                          autocomplete="family-name" />
+            <x-input-error class="mt-2" :messages="$errors->get('pavarde')" />
+        </div>
         {{-- EMAIL --}}
         <div>
             <x-input-label for="el_pastas" :value="__('Email')" />

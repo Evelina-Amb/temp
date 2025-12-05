@@ -32,29 +32,30 @@
 
             <div class="bg-white shadow rounded overflow-hidden hover:shadow-lg transition">
 
-                <div class="relative">
-                    <img 
+<div class="relative">
+
+<img 
     :src="item.listing_photo?.[0]?.failo_url || 'https://via.placeholder.com/300'"
     class="w-full h-48 object-cover"
 />
 
-                    <!-- Favorite Button -->
-                    <button
-                        @click="Alpine.store('favorites').toggle(item.id); favorites = Alpine.store('favorites').list; loadFavorites();"
-                        class="absolute top-2 right-2"
-                    >
-                        <span 
-                            x-show="favorites.includes(item.id)"
-                            class="text-red-500 text-2xl"
-                        >❤️</span>
+    <!-- Favorite Button -->
+    <button
+        @click="Alpine.store('favorites').toggle(item.id); favorites = Alpine.store('favorites').list; loadFavorites();"
+        class="absolute top-2 right-2"
+    >
+        <span 
+            x-show="favorites.includes(item.id)"
+            class="text-red-500 text-2xl"
+        >❤️</span>
 
-                        <span 
-                            x-show="!favorites.includes(item.id)"
-                            class="text-gray-300 text-2xl"
-                        >🤍</span>
-                    </button>
-                </div>
+        <span 
+            x-show="!favorites.includes(item.id)"
+            class="text-gray-300 text-2xl"
+        >🤍</span>
+    </button>
 
+</div>
                 <div class="p-4">
                     <h2 class="text-lg font-semibold mb-1" x-text="item.pavadinimas"></h2>
 
