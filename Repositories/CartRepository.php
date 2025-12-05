@@ -22,5 +22,12 @@ class CartRepository extends BaseRepository implements CartRepositoryInterface
     {
         return Cart::with(['user', 'Listing'])->find($id);
     }
+
+    public function getByUser(int $userId): Collection
+    {
+    return Cart::with(['user', 'Listing'])
+        ->where('user_id', $userId)
+        ->get();
+    }
 }
  

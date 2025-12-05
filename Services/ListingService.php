@@ -49,19 +49,32 @@ class ListingService
     return $this->listingRepository->search($filters);
 }
 
-    public function update(int $id, array $data)
+public function update(int $id, array $data)
 {
     $listing = $this->listingRepository->getById($id);
     if (!$listing) {
         return null;
     }
 
-    //Prevent editing sold listings
+    // Prevent editing sold listings
     if ($listing->statusas === 'parduotas') {
         throw new \Exception('Negalima redaguoti parduoto skelbimo.');
     }
 
-    return $this->listingRepository->update($listing, $data);
+    // Ensure quantity + renewable flag update
+    $allowedFields = [
+        'pavadinimas',
+        'aprasymas',
+        'kaina',
+        'tipas',
+        'category_id',
+        'kiekis',
+        'is_renewable'
+    ];
+
+    $updateData = array_intersect_key($data, array_flip($allowedFields));
+
+    return $this->listingRepository->update($listing, $updateData);
 }
 
     public function delete(int $id)
@@ -73,6 +86,8 @@ class ListingService
 
     //If listing is sold simulate "hiden" but do NOT delete
     if ($listing->statusas === 'parduotas') {
+        $listing->is_hidden = true;
+        $listing->save();
         return true;
     }
 

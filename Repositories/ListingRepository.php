@@ -15,22 +15,25 @@ class ListingRepository extends BaseRepository implements ListingRepositoryInter
 
     public function getPublic(): Collection
     {
-        return Listing::where('statusas', '!=', 'parduotas')
-                  ->with(['user', 'category', 'listingPhoto'])
+        return Listing::where('is_hidden', false) 
+                  ->where('statusas', '!=', 'parduotas')
+                  ->with(['user', 'category', 'ListingPhoto'])
                   ->get();
     }
 
     public function getByUser(int $userId): Collection
 {
     return Listing::where('user_id', $userId)
-                  ->with(['category', 'listingPhoto'])
+                  ->where('is_hidden', false)  
+                  ->with(['category', 'ListingPhoto'])
                   ->get();
 }
 
     public function search(array $filters): Collection
 {
-    $query = Listing::where('statusas', '!=', 'parduotas')
-                    ->with(['user', 'category', 'listingPhoto']);
+    $query = Listing::where('is_hidden', false)
+                ->where('statusas', '!=', 'parduotas')
+                ->with(['user', 'category', 'ListingPhoto']);
 
     // Keyword search
     if (!empty($filters['q'])) {
@@ -87,9 +90,9 @@ class ListingRepository extends BaseRepository implements ListingRepositoryInter
 
 public function getByIds(array $ids): Collection
 {
-    return Listing::whereIn('id', $ids)
-                  ->with(['listingPhoto', 'category', 'user'])
+    return Listing::where('is_hidden', false)
+                  ->whereIn('id', $ids)
+                  ->with(['ListingPhoto', 'category', 'user'])
                   ->get();
 }
-
 }
