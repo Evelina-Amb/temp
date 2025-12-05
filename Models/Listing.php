@@ -13,7 +13,8 @@ class Listing extends Model
 
     protected $fillable = [
         'pavadinimas', 'aprasymas', 'kaina', 'tipas',
-        'user_id', 'category_id', 'statusas'
+        'user_id', 'category_id', 'statusas', 'is_hidden', 
+        'kiekis', 'is_renewable',
     ];
 
     public function user()

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ListingPhoto extends Model
 {
     use HasFactory;
-    protected $table = 'listingPhoto';
+    protected $table = 'listingphoto';
 
     protected $fillable = ['listing_id', 'failo_url'];
 

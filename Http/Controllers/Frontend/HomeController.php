@@ -35,4 +35,19 @@ class HomeController extends Controller
             'filters'  => $filters
         ]);
     }
+
+    public function show(\App\Models\Listing $listing)
+{
+    // Similar products from the same seller
+    $similar = \App\Models\Listing::where('user_id', $listing->user_id)
+        ->where('id', '!=', $listing->id)
+        ->take(4)
+        ->get();
+
+    return view('frontend.listing-single', [
+        'listing' => $listing,
+        'similar' => $similar
+    ]);
+}
+
 }
